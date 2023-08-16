@@ -2,6 +2,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator nestjs_dto_generator {
+  provider = "prisma-nestjs-dto-generator"
+  enableModel = true // default: true
+  modelFileNameSuffix = ".model" // default: ".model"
+  modelClassNameSuffix = "Model" // default: ""
+  enableSwagger = true // default: false
+  dtoClassNameSuffix = "Dto" // default: "Dto"
+  dtoFileNameSuffix = ".dto" // default: ".dto"
+  toLowerCase = true // field name to lower case, default: false
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")

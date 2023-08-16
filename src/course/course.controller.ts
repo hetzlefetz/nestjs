@@ -11,12 +11,12 @@ import {
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { CourseEntity } from './entities/course.entity';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiExtraModels, ApiOkResponse, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { Course } from '@prisma/client';
 import { CourseDto } from './dto/course.dto';
 import { ApiBaseResponse } from '../shared/decorators/api-base-response.decorator';
 import { Response } from '../shared/responses/base.response';
+import { CourseModel } from './models/course.model';
 
 @Controller('course')
 @ApiTags('course')
@@ -25,13 +25,13 @@ export class CourseController {
   }
 
   @Get(':id')
-  async getCourseById(@Param('id') id: string): Promise<CourseEntity> {
+  async getCourseById(@Param('id') id: string): Promise<CourseModel> {
     return this.courseService.course({ id: Number(id) });
   }
 
   @Get('filtered-courses/:isBeginner')
-  async getBeginnerCourses(): Promise<CourseEntity[]> {
-    return this.courseService.courses({
+  async getBeginnerCourses(): Promise<Course[]> {
+    return this.courseService.getFilteredCourses({
       where: { beginner: true }
     });
   }
@@ -39,8 +39,8 @@ export class CourseController {
   @Get('filtered-courses/:searchString')
   async getFilteredCourses(
     @Param('searchString') searchString: string
-  ): Promise<CourseEntity[]> {
-    return this.courseService.courses({
+  ): Promise<Course[]> {
+    return this.courseService.getFilteredCourses({
       where: {
         OR: [
           {
@@ -56,26 +56,28 @@ export class CourseController {
 
   @ApiBaseResponse(CourseEntity, {
     statusCode: 201,
-    description: 'Create Course'
+    description: 'Create Course',
   })
   @Post('/')
   async createCourse(
-    @Body() body: CreateCourseDto): Promise<Response<Course, CourseEntity>> {
+    @Body() body: CreateCourseDto,
+  ): Promise<Response<Course, CourseEntity>> {
     const course = await this.courseService.createCourse(body);
     return new Response<Course, CourseEntity>(course, CourseEntity);
   }
 
   @ApiBaseResponse(CourseEntity, {
     description: 'Update course info',
-    statusCode: 201,
+    statusCode: 200,
   })
   @Patch('/:id')
+  @ApiExtraModels(CourseModel, Response)
   async updateCourse(
-    @Body() body: UpdateCourseDto,
-    @Param('id') id: number
-  ): Promise<Response<Course, CourseEntity>> {
-    const update = await this.courseService.updateCourse(body, );
-    return new Response<Course, CourseEntity>(update, CourseEntity);
+    @Body() body: CourseDto,
+    @Param('id') id: number,
+  ): Promise<Response<Course, CourseModel>> {
+    const update = await this.courseService.updateCourse(body, Number(id));
+    return new Response<Course, CourseModel>(update, CourseModel);
   }
 
   @Delete('course/:id')

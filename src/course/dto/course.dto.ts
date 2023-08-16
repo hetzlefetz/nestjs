@@ -1,16 +1,52 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Decimal } from '@prisma/client/runtime/library';
+import {
+  IsNumber,
+  IsNotEmpty,
+  IsString,
+  IsDate,
+  IsBoolean,
+  IsOptional,
+} from 'class-validator';
+import { VideoDto, InstructorDto } from '../../../prisma/generated/dtos';
 
 export class CourseDto {
-  @ApiProperty({ example: 5 })
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsNumber()
   id: number;
 
-  @ApiProperty({ example: 'testTitle' })
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
   title: string;
 
-  @ApiProperty({ example: 'testDesc' })
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
   desc: string;
 
-  @ApiProperty({ example: 2.5 })
-  duration: Decimal;
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsNumber()
+  duration: number;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsDate()
+  date: Date;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsBoolean()
+  beginner: boolean;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsNumber()
+  videos?: VideoDto[];
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsNumber()
+  instructorId?: number;
 }

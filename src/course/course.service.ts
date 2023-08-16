@@ -3,10 +3,12 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Course, Prisma } from "@prisma/client";
+import { CourseDto } from './dto/course.dto';
 
 @Injectable()
 export class CourseService {
   constructor(private prisma: PrismaService) {}
+/*
 
   create(createCourseDto: CreateCourseDto) {
     return this.prisma.course.create({ data: createCourseDto });
@@ -27,16 +29,15 @@ export class CourseService {
   remove(id: number) {
     return this.prisma.course.delete({ where: { id } });
   }
+*/
 
-   async course(
-    courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
-  ): Promise<Course | null> {
+  async course(id): Promise<CourseDto> {
     return this.prisma.course.findUnique({
-      where: courseWhereUniqueInput,
+      where: { id },
     });
   }
 
-  async courses(params: {
+  async getFilteredCourses(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.CourseWhereUniqueInput;
@@ -53,15 +54,16 @@ export class CourseService {
     });
   }
 
-  async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
+  async createCourse(data: Prisma.CourseCreateInput): Promise<CourseDto> {
     return this.prisma.course.create({
       data,
     });
   }
 
-  async updateCourse(data: UpdateCourseDto): Promise<Course> {
-    const { title, desc, duration, beginner, instructorId } = data;
+  async updateCourse(data: UpdateCourseDto, id): Promise<CourseDto> {
+    const {} = data;
     return this.prisma.course.update({
+      where: { id },
       data,
     });
   }
