@@ -1,5 +1,5 @@
 import { IsNumber, IsNotEmpty, IsString, IsDate, IsBoolean, IsOptional } from 'class-validator';
-import { VideoModel, InstructorModel } from '../../../prisma/generated/models';
+import { VideoModel, InstructorModel } from './';
 
 export class CourseModel {
   @IsNotEmpty()
@@ -27,7 +27,7 @@ export class CourseModel {
   beginner: boolean;
 
   @IsOptional()
-  videos: VideoModel[];
+  videos?: VideoModel[];
 
   @IsOptional()
   Instructor?: InstructorModel;

@@ -7,7 +7,7 @@ import {
   IsBoolean,
   IsOptional,
 } from 'class-validator';
-import { VideoDto, InstructorDto } from '../../../prisma/generated/dtos';
+import { VideoDto, InstructorDto } from './';
 
 export class CourseDto {
   @ApiProperty({ required: true })
@@ -40,13 +40,16 @@ export class CourseDto {
   @IsBoolean()
   beginner: boolean;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true, type: () => VideoDto })
   @IsOptional()
-  @IsNumber()
   videos?: VideoDto[];
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
+  @ApiProperty({ required: false, type: () => InstructorDto })
+  @IsOptional()
+  Instructor?: InstructorDto;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsNumber()
   instructorId?: number;
 }

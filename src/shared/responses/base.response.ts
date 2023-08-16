@@ -11,7 +11,7 @@ export class Response<Content, Dto> {
   @ApiProperty()
   data: Dto;
 
-  constructor(content: Content, dto: ClassType<Dto>) {
+  constructor(content: CourseDto, dto: ClassType<Dto>) {
     this.data = this.toJson(dto, content);
   }
 
