@@ -22,9 +22,10 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Get('/')
-  async getCourseList() {
-    return this.courseService.getAll();
+  async getCourses() {
+    return this.courseService.getCourses();
   }
+
   @Get(':id')
   async getCourseById(@Param('id') id: string): Promise<CourseModel> {
     return this.courseService.course({ id: Number(id) });

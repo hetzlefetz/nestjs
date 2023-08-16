@@ -9,6 +9,10 @@ import { CourseDto } from '../../prisma/generated/dtos';
 export class CourseService {
   constructor(private prisma: PrismaService) {}
 
+  async getCourses() {
+    return this.prisma.course.findMany();
+  }
+
   async course(id): Promise<CourseDto> {
     return this.prisma.course.findUnique({
       where: { id },
@@ -50,9 +54,5 @@ export class CourseService {
     return this.prisma.course.delete({
       where,
     });
-  }
-
-  async getAll() {
-    return this.prisma.course.findMany();
   }
 }
