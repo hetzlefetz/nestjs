@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Course, Prisma } from '@prisma/client';
-import { CreateCourseDto } from "./dto/create-course.dto";
-import { UpdateCourseDto } from "./dto/update-course.dto";
+import { CreateCourseDto } from './dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
 export class CourseService {
   constructor(private prisma: PrismaService) {}
-
 
   create(createCourseDto: CreateCourseDto) {
     return this.prisma.course.create({ data: createCourseDto });
@@ -28,7 +26,7 @@ export class CourseService {
   remove(id: number) {
     return this.prisma.course.delete({ where: { id } });
   }
-/*  async course(
+  /*  async course(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
   ): Promise<Course | null> {
     return this.prisma.course.findUnique({

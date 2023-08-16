@@ -6,7 +6,7 @@ import {
   Body,
   Patch,
   Delete,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -14,8 +14,8 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseEntity } from './entities/course.entity';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('courses')
-@ApiTags('courses')
+@Controller('course')
+@ApiTags('course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
@@ -41,7 +41,7 @@ export class CourseController {
   @ApiCreatedResponse({ type: CourseEntity })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateCourseDto
+    @Body() updateUserDto: UpdateCourseDto,
   ) {
     return this.courseService.update(id, updateUserDto);
   }
