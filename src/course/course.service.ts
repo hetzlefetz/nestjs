@@ -7,7 +7,7 @@ import { CourseDto } from '../../prisma/generated/dtos';
 
 @Injectable()
 export class CourseService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getCourses() {
     return this.prisma.course.findMany();
@@ -36,14 +36,14 @@ export class CourseService {
     });
   }
 
-  async createCourse(data: Prisma.CourseCreateInput): Promise<CreateCourseDto> {
+  async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
     return this.prisma.course.create({
       data,
     });
   }
 
-  async updateCourse(data: UpdateCourseDto, id): Promise<CourseDto> {
-    const {} = data;
+  async updateCourse(data: UpdateCourseDto, id): Promise<Course> {
+    const { } = data;
     return this.prisma.course.update({
       where: { id },
       data,

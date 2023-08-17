@@ -7,7 +7,7 @@ import { Instructor, Prisma } from '@prisma/client';
 
 @Injectable()
 export class InstructorService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getInstructors() {
     return this.prisma.instructor.findMany();
@@ -38,7 +38,7 @@ export class InstructorService {
 
   async createInstructor(
     data: Prisma.InstructorCreateInput,
-  ): Promise<CreateInstructorDto> {
+  ): Promise<Instructor> {
     return this.prisma.instructor.create({
       data,
     });
@@ -47,8 +47,8 @@ export class InstructorService {
   async updateInstructor(
     data: UpdateInstructorDto,
     id,
-  ): Promise<InstructorDto> {
-    const {} = data;
+  ): Promise<Instructor> {
+    const { } = data;
     return this.prisma.instructor.update({
       where: { id },
       data,
