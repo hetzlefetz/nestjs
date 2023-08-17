@@ -31,7 +31,7 @@ export class CourseController {
     return this.courseService.course({ id: Number(id) });
   }
 
-  @Get('filtered-courses/:isBeginner')
+  @Get('beginner-courses/:isBeginner')
   async getBeginnerCourses(): Promise<Course[]> {
     return this.courseService.getFilteredCourses({
       where: { beginner: true },
