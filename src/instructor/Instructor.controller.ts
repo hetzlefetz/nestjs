@@ -19,8 +19,7 @@ import { Response } from '../shared/responses/base.response';
 @Controller('instructor')
 @ApiTags('instructor')
 export class InstructorController {
-  constructor(private readonly instructorService: InstructorService) {
-  }
+  constructor(private readonly instructorService: InstructorService) {}
 
   @Get('/')
   async getInstructors() {
@@ -42,7 +41,7 @@ export class InstructorController {
 
   @Get('filtered-instructors/:searchString')
   async getFilteredInstructors(
-    @Param('searchString') searchString: string
+    @Param('searchString') searchString: string,
   ): Promise<Instructor[]> {
     return this.instructorService.getFilteredInstructors({
       where: {
@@ -60,11 +59,11 @@ export class InstructorController {
 
   @ApiBaseResponse(InstructorModel, {
     statusCode: 201,
-    description: 'Create Instructor'
+    description: 'Create Instructor',
   })
   @Post('/')
   async createInstructor(
-    @Body() body: CreateInstructorDto
+    @Body() body: CreateInstructorDto,
   ): Promise<Response<Instructor, InstructorModel>> {
     const instructor = await this.instructorService.createInstructor(body);
     return new Response<Instructor, InstructorModel>(

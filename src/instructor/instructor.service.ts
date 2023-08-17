@@ -13,7 +13,7 @@ export class InstructorService {
     return this.prisma.instructor.findMany();
   }
 
-  async instructor(id): Promise<InstructorDto> {
+  async instructor(id): Promise<Instructor> {
     return this.prisma.instructor.findUnique({
       where: { id },
     });
@@ -44,10 +44,7 @@ export class InstructorService {
     });
   }
 
-  async updateInstructor(
-    data: UpdateInstructorDto,
-    id,
-  ): Promise<Instructor> {
+  async updateInstructor(data: UpdateInstructorDto, id): Promise<Instructor> {
     const { } = data;
     return this.prisma.instructor.update({
       where: { id },

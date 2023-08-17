@@ -13,7 +13,7 @@ export class CourseService {
     return this.prisma.course.findMany();
   }
 
-  async course(id): Promise<CourseDto> {
+  async course(id): Promise<Course> {
     return this.prisma.course.findUnique({
       where: { id },
     });
