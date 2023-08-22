@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsNotEmpty, IsString, IsOptional } from "class-validator";
-import { CourseDto } from "./";
+import { CourseDto } from "../../../prisma/generated/dtos";
 
 export class InstructorDto {
     @ApiProperty({ required: true })

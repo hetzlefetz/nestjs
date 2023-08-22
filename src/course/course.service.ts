@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Course, Prisma } from '@prisma/client';
-import { CourseDto } from '../../prisma/generated/dtos';
 
 @Injectable()
 export class CourseService {
@@ -22,7 +20,7 @@ export class CourseService {
 
   async course(id): Promise<Course> {
     return this.prisma.course.findUnique({
-      where: id
+      where: id,
     });
   }
 
@@ -39,7 +37,7 @@ export class CourseService {
       take,
       cursor,
       where,
-      orderBy
+      orderBy,
     });
   }
 
@@ -53,13 +51,13 @@ export class CourseService {
     const {} = data;
     return this.prisma.course.update({
       where: { id },
-      data
+      data,
     });
   }
 
   async deleteCourse(where: Prisma.CourseWhereUniqueInput): Promise<Course> {
     return this.prisma.course.delete({
-      where
+      where,
     });
   }
 }

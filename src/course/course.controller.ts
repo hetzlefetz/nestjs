@@ -5,7 +5,7 @@ import {
   Post,
   Body,
   Patch,
-  Delete,
+  Delete
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -14,12 +14,13 @@ import { Course } from '@prisma/client';
 import { ApiBaseResponse } from '../shared/decorators/api-base-response.decorator';
 import { Response } from '../shared/responses/base.response';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { CourseModel } from '../../prisma/generated/models';
+import { CourseModel } from './model/course.model';
 
 @Controller('course')
 @ApiTags('course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) {}
+  constructor(private readonly courseService: CourseService) {
+  }
 
   @Get('/')
   async getCourses() {
@@ -33,36 +34,42 @@ export class CourseController {
 
   @Get('beginner-courses/:isBeginner')
   async getBeginnerCourses(): Promise<Course[]> {
-    return this.courseService.getFilteredCourses({
-      where: { beginner: true },
+    const startTime = Date.now();
+
+    const res = await this.courseService.getFilteredCourses({
+      where: { beginner: true }
     });
+    const msElapsed = Date.now() - startTime;
+    console.log(`Async function took ${msElapsed / 1000} seconds to complete.`);
+
+    return res;
   }
 
   @Get('filtered-courses/:searchString')
   async getFilteredCourses(
-    @Param('searchString') searchString: string,
+    @Param('searchString') searchString: string
   ): Promise<Course[]> {
     return this.courseService.getFilteredCourses({
       where: {
         OR: [
           {
-            title: { contains: searchString },
+            title: { contains: searchString }
           },
           {
-            desc: { contains: searchString },
-          },
-        ],
-      },
+            desc: { contains: searchString }
+          }
+        ]
+      }
     });
   }
 
   @ApiBaseResponse(CourseModel, {
     statusCode: 201,
-    description: 'Create Course',
+    description: 'Create Course'
   })
   @Post('/')
   async createCourse(
-    @Body() body: CreateCourseDto,
+    @Body() body: CreateCourseDto
   ): Promise<Response<Course, CourseModel>> {
     const course = await this.courseService.createCourse(body);
     return new Response<Course, CourseModel>(course, CourseModel);
@@ -70,13 +77,13 @@ export class CourseController {
 
   @ApiBaseResponse(CourseModel, {
     description: 'Update course info',
-    statusCode: 200,
+    statusCode: 200
   })
   @Patch('/:id')
   @ApiExtraModels(CourseModel, Response)
   async updateCourse(
     @Body() body: UpdateCourseDto,
-    @Param('id') id: number,
+    @Param('id') id: number
   ): Promise<Response<Course, CourseModel>> {
     const update = await this.courseService.updateCourse(body, Number(id));
     return new Response<Course, CourseModel>(update, CourseModel);

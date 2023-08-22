@@ -11,7 +11,7 @@ import { InstructorService } from './instructor.service';
 import { CreateInstructorDto } from './dto/create-instructor.dto';
 import { UpdateInstructorDto } from './dto/update-instructor.dto';
 import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
-import { InstructorModel } from '../../prisma/generated/models';
+import { InstructorModel } from './model/instructor.model';
 import { Instructor } from '@prisma/client';
 import { ApiBaseResponse } from '../shared/decorators/api-base-response.decorator';
 import { Response } from '../shared/responses/base.response';

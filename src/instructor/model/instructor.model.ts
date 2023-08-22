@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { IsNumber, IsNotEmpty, IsString, IsOptional } from "class-validator";
-import { CourseModel } from "./";
+import { CourseModel } from "../../../prisma/generated/models";
 
 export class InstructorModel {
     @IsNotEmpty()
